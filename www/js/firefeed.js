@@ -51,11 +51,6 @@ Firefeed.prototype = {
     var match = RegExp().exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, " "));
   },
-  _getPicURL: function(id, large) {
-    return "https://graph.facebook.com/" + (id || this._userid) +
-           "/picture/?type=" + (large ? "large" : "square") +
-           "&return_ssl_resources=1";
-  },
   _onNewSparkForFeed: function(feed, onComplete, onOverflow) {
     var self = this;
 
@@ -66,9 +61,7 @@ Firefeed.prototype = {
       var sparkID = snap.name();
       var sparkRef = self._firebase.child("sparks").child(sparkID);
       var handler = sparkRef.on("value", function(sparkSnap) {
-        var ret = sparkSnap.val();
-        ret.pic = self._getPicURL(ret.author);
-        onComplete(sparkSnap.name(), ret);
+        onComplete(sparkSnap.name(), sparkSnap.val());
       });
       self._handlers.push({
         ref: sparkRef, handler: handler, eventType: "value"
@@ -102,7 +95,7 @@ Firefeed.prototype = {
  * Some methods on this object may not be called until login() has succeeded,
  * and are noted as such.
  *
- * The login is performed using Firebase Easy Login, with Facebook as the
+ * The login is performed using Firebase Easy Login, with Persona as the
  * identity provider. You will probably call login() twice in your app, once
  * to check if the user is already logged in by passing the silent parameter as
  * true. If they are not (onComplete will be invoked with an error), you may
@@ -138,9 +131,9 @@ Firefeed.prototype.login = function(silent, onComplete) {
   }
 
   // No token was found, and silent was set to false. We'll attempt to login
-  // the user via the Facebook helper.
+  // the user via the Persona helper.
   var authClient = new FirebaseAuthClient(self._firebase);
-  authClient.login("facebook", function(err, token, info) {
+  authClient.login("persona", function(err, token, info) {
     if (err) {
       onComplete(new Error(err), false);
       return;
@@ -148,8 +141,9 @@ Firefeed.prototype.login = function(silent, onComplete) {
     // We got ourselves a token! Persist the info in localStorage for later.
     localStorage.setItem("userid", info.id);
     localStorage.setItem("authToken", token);
-    localStorage.setItem("name", info.first_name);
-    localStorage.setItem("fullName", info.name);
+    localStorage.setItem("name", info.email.split("@")[0]);
+    localStorage.setItem("fullName", info.email);
+    localStorage.setItem("pic", "http://www.gravatar.com/avatar/" + info.hash + "?s=200");
     finish();
   });
 
@@ -158,6 +152,7 @@ Firefeed.prototype.login = function(silent, onComplete) {
     self._mainUser = self._firebase.child("users").child(self._userid);
     self._fullName = localStorage.getItem("fullName");
     self._name = localStorage.getItem("name");
+    self._pic = localStorage.getItem("pic");
 
     var peopleRef = self._firebase.child("people").child(self._userid);
     peopleRef.once("value", function(peopleSnap) {
@@ -167,7 +162,7 @@ Firefeed.prototype.login = function(silent, onComplete) {
         // First time login, upload details.
         info = {
           name: self._name, fullName: self._fullName,
-          location: "", bio: "", pic: self._getPicURL()
+          location: "", bio: "", pic: self._pic
         };
         peopleRef.set(info);
       } else {
@@ -217,9 +212,7 @@ Firefeed.prototype.getUserInfo = function(user, onComplete) {
   self._validateCallback(onComplete, true);
   var ref = self._firebase.child("people").child(user);
   var handler = ref.on("value", function(snap) {
-    var val = snap.val();
-    val.pic = self._getPicURL(snap.name(), true);
-    onComplete(val);
+    onComplete(snap.val());
   });
   self._handlers.push({
     ref: ref, handler: handler, eventType: "value"
@@ -308,7 +301,8 @@ Firefeed.prototype.post = function(content, onComplete) {
 
   var spark = {
     author: self._userid, 
-    by: self._fullName, 
+    by: self._fullName,
+    pic: self._pic,
     content: content,
     timestamp: new Date().getTime()
   };

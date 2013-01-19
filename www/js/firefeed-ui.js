@@ -8,7 +8,7 @@ function FirefeedUI() {
   this._limit = 141;
   this._loggedIn = false;
   this._spinner = new Spinner();
-  this._firefeed = new Firefeed("http://firefeed.firebaseio.com/");
+  this._firefeed = new Firefeed("https://firefeed-persona.firebaseio.com/");
   this._unload = null;
 
   // Setup page navigation.
@@ -312,7 +312,7 @@ FirefeedUI.prototype.renderProfile = function(uid) {
     info.id = uid;
     var content = Mustache.to_html($("#tmpl-profile-content").html(), info);
     $("#profile-content").html(content);
-    var button = $("#followBtn-" + info.id);
+    var button = $("#followBtn-" + info.hash);
 
     // Show follow button if logged in.
     if (self._loggedIn && self._loggedIn != info.id) {
