@@ -187,18 +187,6 @@ FirefeedUI.prototype.renderHome = function(e) {
 
   $("#header").html($("#tmpl-index-header").html());
 
-  // Preload animation.
-  var path = "img/curl-animate.gif";
-  var img = new Image();
-  img.src = path;
-
-  // Setup curl on hover.
-  $(".ribbon-curl").find("img").hover(function() {
-    $(this).attr("src", path);
-  }, function() {
-    $(this).attr("src", "img/curl-static.gif");
-  });
-
   var body = Mustache.to_html($("#tmpl-content").html(), {
     classes: "cf home", content: $("#tmpl-index-content").html()
   });
