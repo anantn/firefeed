@@ -279,7 +279,7 @@ FirefeedUI.prototype.renderTimeline = function(info) {
     info.id = userid;
     $(Mustache.to_html($("#tmpl-suggested-user").html(), info)).
       appendTo("#suggested-users");
-    var button = $("#followBtn-" + userid);
+    var button = $("#followBtn-" + info.hash);
     // Fade out the suggested user if they were followed successfully.
     button.click(function(e) {
       e.preventDefault();
@@ -329,7 +329,7 @@ FirefeedUI.prototype.renderProfile = function(uid) {
         e.preventDefault();
         self._firefeed.follow(info.id, function(err, done) {
           // TODO FIXME: Check for errors!
-          $("#followBtn-" + info.id).fadeOut(1500);
+          $("#followBtn-" + info.hash).fadeOut(1500);
         });
       });
     } else {
