@@ -1,7 +1,7 @@
 {
   "name": "Firefeed",
   "description": "A server-less twitter clone built with Firebase!",
-  "launch_path": "/",
+  "launch_path": "/firefeed/",
   "icons": {
     "128": "/img/logo.png"
   },
