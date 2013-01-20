@@ -68,6 +68,7 @@
 
       <script id="tmpl-timeline-content" type="text/html">
         <div class="third">
+          <!--
           <div class="media">
             <div class="img avatar">
               <a class="profile-link" href="/?profile={{id}}"><img src="{{pic}}" alt="{{name}}"></a>
@@ -77,12 +78,14 @@
               <div class="big-copy end">
                 <div class="editable" id="inputLocation">{{location}}</div>
               </div>
-              <!-- <div class="big-copy">
+                <div class="big-copy">
                 <div class="editable" id="inputBio">{{bio}}</div>
-              </div> -->
+              </div>
             </div>
           </div>
-          <input type="button" id="spark-input-modal-button" value="New Spark"/>
+          -->
+          <a id="spark-input-modal-button" class="btn default" style="float:left;">Post Spark</a>
+          <a id="suggested-modal-button" class="btn default" style="float:right;">Follow Users</a>
           <x-modal id="spark-input-modal" hide overlay>
             <div class="field">
               <textarea id="spark-input" class="text" rows="4" cols="10" placeholder="Share an update"></textarea>
@@ -92,13 +95,15 @@
               <a id="spark-button" href="#" class="btn default pushv4" style="width:35%">Post</a>
               <a id="spark-button-cancel" href="#" class="btn default pushv4" style="width:35%; float:right;">Cancel</a>
             </div>
-          </x-modal>          
-          <div class="separator pushv4"></div>
-          
-          <div id="suggested-users">
-            <h3>We suggest you follow:</h3>
-          </div>
+          </x-modal>
+          <x-modal id="suggested-modal" hide overlay>
+            <div id="suggested-users">
+              <h3>We suggest you follow:</h3>
+            </div>
+            <a id="suggested-modal-cancel" href="#" class="btn default pushv4" style="width:80%;">Close</a>
+          </x-modal>
         </div>
+        <div class="separator pushv4"></div>
         <div class="twothird">
           <ul id="spark-timeline-list" class="item-list">
           </ul>

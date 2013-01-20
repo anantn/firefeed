@@ -237,6 +237,12 @@ FirefeedUI.prototype.renderTimeline = function(info) {
   $("#spark-button-cancel").click(function(e) {
     $("#spark-input-modal").attr("hide", true);
   });
+  $("#suggested-modal-button").click(function(e) {
+    $("#suggested-modal").removeAttr("hide");
+  });
+  $("#suggested-modal-cancel").click(function(e) {
+    $("#suggested-modal").attr("hide", true);
+  });
 
   // Attach textarea handlers.
   var charCount = $("#c-count");
