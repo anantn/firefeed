@@ -11,6 +11,8 @@
     <link href="img/favicon.png" rel="shortcut icon" />
     <link href="img/apple-touch-icon.png" rel="apple-touch-icon" />
     <link href="css/global.css" rel="stylesheet" />
+    <link href="css/humane.css" rel="stylesheet" />
+    <link href="css/modal.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
   </head>
   
@@ -75,19 +77,22 @@
               <div class="big-copy end">
                 <div class="editable" id="inputLocation">{{location}}</div>
               </div>
-              <div class="big-copy">
+              <!-- <div class="big-copy">
                 <div class="editable" id="inputBio">{{bio}}</div>
-              </div>
+              </div> -->
             </div>
           </div>
-          <div class="field">
-            <textarea id="spark-input" class="text" rows="4" cols="10" placeholder="Share an update"></textarea>
-          </div>
-          <small class="field-help"><span id="c-count"></span> characters remaining</small>
-          <div id="spark-button-div">
-            <a id="spark-button" href="#" class="btn default full pushv4">Update Status</a>
-          </div>
-          
+          <input type="button" id="spark-input-modal-button" value="New Spark"/>
+          <x-modal id="spark-input-modal" hide overlay>
+            <div class="field">
+              <textarea id="spark-input" class="text" rows="4" cols="10" placeholder="Share an update"></textarea>
+            </div>
+            <small class="field-help"><span id="c-count"></span> characters remaining</small>
+            <div id="spark-button-div">
+              <a id="spark-button" href="#" class="btn default pushv4" style="width:35%">Post</a>
+              <a id="spark-button-cancel" href="#" class="btn default pushv4" style="width:35%; float:right;">Cancel</a>
+            </div>
+          </x-modal>          
           <div class="separator pushv4"></div>
           
           <div id="suggested-users">
@@ -193,8 +198,12 @@
     <![endif]-->
 
     <!-- Templates by Mustache, Spinner by spin.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/humane-js/3.0.6/humane.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
+
+    <script src="js/x-tag.js"></script>
+    <script src="js/modal.js"></script>
 
     <!-- Firebase.js and auth client must be included before Firefeed -->
     <script src="//cdn.firebase.com/v0/firebase.js"></script>

@@ -78,29 +78,24 @@ FirefeedUI.prototype._pageController = function(url) {
 };
 
 FirefeedUI.prototype._postHandler = function(e) {
-  var sparkText = $("#spark-input");
-  var sparkButton = $("#spark-button");
+  var sparkText = $("#spark-input");  
   var containerEl = $("#spark-button-div");
-  var message = $("<div>", { class: "msg" }).html("Posting...");
 
   var self = this;
   e.preventDefault();
-  sparkButton.replaceWith(message);
   self._spinner.spin(containerEl.get(0));
   self._firefeed.post(sparkText.val(), function(err, done) {
+    $("#spark-input-modal").attr("hide", true);
     if (!err) {
-      message.html("Posted!").css("background", "#008000");
+      humane.addnCls = "humane-jackedup";
+      humane.log("Posted!")
       sparkText.val("");
     } else {
-      message.html("Posting failed!").css("background", "#FF6347");
+      humane.addnCls = "humane-jackedup-error";
+      humane.log("Sorry, could not post spark!");
     }
     self._spinner.stop();
     $("#c-count").val(self._limit);
-    message.css("visibility", "visible");
-    message.fadeOut(1500, function() {
-      message.replaceWith(sparkButton);
-      sparkButton.click(self._postHandler.bind(self));
-    });
   });
 };
 
@@ -235,21 +230,29 @@ FirefeedUI.prototype.renderTimeline = function(info) {
   });
   $("#body").html(body);
 
+  // Handle modal spark-input.
+  $("#spark-input-modal-button").click(function(e) {
+    $("#spark-input-modal").removeAttr("hide");
+  });
+  $("#spark-button-cancel").click(function(e) {
+    $("#spark-input-modal").attr("hide", true);
+  });
+
   // Attach textarea handlers.
   var charCount = $("#c-count");
   var sparkText = $("#spark-input");
-  $("#spark-button").css("visibility", "hidden");
+  //$("#spark-button").css("visibility", "hidden");
   function _textAreaHandler() {
     var text = sparkText.val();
     charCount.text("" + (self._limit - text.length));
     if (text.length > self._limit) {
       charCount.css("color", "#FF6347");
-      $("#spark-button").css("visibility", "hidden");
+      //$("#spark-button").css("visibility", "hidden");
     } else if (text.length == 0) {
-      $("#spark-button").css("visibility", "hidden");
+      //$("#spark-button").css("visibility", "hidden");
     } else {
       charCount.css("color", "#999");
-      $("#spark-button").css("visibility", "visible");
+      //$("#spark-button").css("visibility", "visible");
     }
   }
   charCount.text(self._limit);

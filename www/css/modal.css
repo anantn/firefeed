@@ -1,0 +1,37 @@
+
+x-modal {
+  display: block;
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  width: 90%;
+  max-width: 500px;
+
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgb(255, 251, 244);
+
+  box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+  transform: translate(-50%, 0%);
+  -o-transform: translate(-50%, 0%);
+  -ms-transform: translate(-50%, 0%);
+  -moz-transform: translate(-50%, 0%);
+  -webkit-transform: translate(-50%, 0%);
+}
+
+x-modal[hide]{
+  display: none;
+}
+
+x-modal[overlay] {
+  -webkit-box-shadow: 0 0 10000px 10000px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 10000px 10000px rgba(0, 0, 0, 0.5);
+  -ms-box-shadow: 0 0 10000px 10000px rgba(0, 0, 0, 0.5);
+  -o-box-shadow: 0 0 10000px 10000px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10000px 10000px rgba(0, 0, 0, 0.5);
+}
