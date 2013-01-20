@@ -286,7 +286,7 @@ FirefeedUI.prototype.renderTimeline = function(info) {
       button.remove();
       self._firefeed.follow(userid, function(err, done) {
         // TODO FIXME: Check for errors!
-        $("#followBox-" + userid).fadeOut(1500);
+        $("#followBtn-" + info.hash).fadeOut(1500);
       });
     });
   });
